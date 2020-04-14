@@ -1,6 +1,6 @@
 from sys import stdout
 from time import sleep
-from os import walk,chdir,listdir , sep,environ
+from os import walk, chdir, listdir, sep, environ, path, mkdir, makedirs
 from shutil import copyfile
 from time import localtime
 from win32api import GetLogicalDrives
@@ -68,14 +68,24 @@ class Mains:
 
                         time = " (m" + timemin + "-s" + timesec + ")"
 
+                        absulpath = path.abspath(main_location).replace(":","")
+                        absulpath = absulpath[:absulpath.rfind("\\")] + "\\"
+                        # print(absulpath)
+
                         if filename in listdir(self.dest):
                             filename = filename.replace(filetype,"")
-                            copyfile(main_location, self.dest + filename + time + filetype)
+
+                            makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                            copyfile(main_location, self.dest + absulpath+ filename + time + filetype)
+                            # print(main_location)
                             self.counter += 1
                             # print(counter)
                             stdout.write('\r'+str(self.counter))
+
                         else:
-                            copyfile(main_location, self.dest + filename)
+
+                            makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                            copyfile(main_location, self.dest +absulpath+ filename)
                             self.counter += 1
                             # print(counter)
                             stdout.write('\r' +str(self.counter))
