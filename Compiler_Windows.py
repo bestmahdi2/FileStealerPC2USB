@@ -24,10 +24,13 @@ class Mains:
             sleep(4)
             exit()
 
+        favorite = ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}"
+
         for usb in self.usb_list:
+
             chdir(usb)
-            if ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}" in listdir('.'):
-                self.dest = usb + "\\.Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}\\"
+            if favorite in listdir('.'):
+                self.dest = usb + "\\" + favorite + "\\"
         if self.dest == "":
             print("No F-USB!!!")
             sleep(4)
@@ -45,9 +48,12 @@ class Mains:
                 t = GetDriveType(drname)
                 if t == DRIVE_FIXED:
                     self.drive_list.append(drname)
+
+## region OS:
         for i in self.drive_list:
             if i == win :
                 self.drive_list.remove(i)
+## endregion
 
     def copier(self):
         self.counter = 0
