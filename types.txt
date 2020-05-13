@@ -1,4 +1,4 @@
 type=txt,png
 file=csgo.exe,chrome.msi
-folder=ProgramFile,
+folder=ProgramFile, 
 search_OS_drive=yes
