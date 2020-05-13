@@ -1,7 +1,7 @@
 # File Stealer PC 2 USB
-This is a python program to search and copy selected types of files of the drives in PC to your selected USB drive.
+This is a python program to search and copy selected files and folders of drives in PC to your USB drive.
 
-این یک برنامه پایتون برای پیدا و کپی کردن فرمت های دلخواه از درایور های کامپیوتر و انتقال به یو اس بی انتخابی است
+این یک برنامه پایتون برای پیدا و کپی کردن فایل ها و فولدر های دلخواه از درایور های کامپیوتر و انتقال به یو اس بی شما است
 ***
 If your not a developer just download and use the **FileStealerPC2USB.exe** in **Release(Github)** .
 
@@ -10,12 +10,30 @@ If your not a developer just download and use the **FileStealerPC2USB.exe** in *
 
 **/Main directory/**
 
-Compiler_Windows.py : script for windows users 
+Compiler_Windows.py : Script for windows users 
+
+Type.txt : Tells program which file or folder need to be copied .
+
+.Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d} : Folder that you can put in your USB .
 
 ## How to use:
-Just run the script , files will go to  ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}" directory .
+First , you need to edit "Type.txt" and write at least one argument for "Type" , "folder" or "file"
 
-فقط برنامه را اجرا کنید فایل ها در به صورت خودکار در مسیر بالا کپی میشوند
+ابتدا باید فایل متنی را تغییر دهید و حداقل یک مورد اضافه کنید
+
+you can write whatever file types (extensions) for "type" , specific file names for "file" and specific folder names for folder.
+something like blow:
+
+شما میتوانید برای "تایپ" پسوند فایل ، برای "فایل" اسم دقیق فایل و برای "فولدر" اسم دقیق فولدر مورد نظر را مثل زیر وارد کنید
+
+    type=txt,png
+    file=csgo.exe,chrome.msi
+    folder=ProgramFile,
+    search_OS_drive=yes
+
+Then run the script , files and folders will go to  ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}" directory .
+
+بعد برنامه را اجرا کنید فایل ها و فولدر ها به صورت خودکار در مسیر بالا کپی میشوند
 
 To access the copied files , just rename  ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}" directory in your USB to something else (perhaps not having Thumbs.ms)
 , elsewhere by opening the directory in Windows you will be headed to "Printer and Scanners" and it's also a Hidden directory in most Linux oses.
@@ -24,9 +42,9 @@ To access the copied files , just rename  ".Thumbs.ms.{2227a280-3aea-1069-a2de-0
 
 ## Notice:
 
-It doesn't search in os_installed_drive because massive number of files and folders which take lots of time ,and weak chance of finding special file types (images , videos and ...) . for disabling you can remove "region OS" in the script .
+It doesn't search in os_installed_drive automatically because massive number of files and folders which take lots of time ,and weak chance of finding special file (images , videos and ...) . You can type "yes" for "search_OS_drive=" in "type.txt"
 
-به طور پیش فرض ، درایوی که سیستم عامل در آن نصب شده ، به دلیل تعداد فایل های زیاد و شانس بسیار کم برای پیدا کردن فایل های خاص(عکس،فیلم و ...) ، جستجو نمیشود  . برای غیر فعال کردن در بخش بالا آن را حذف کنید
+به طورخودکار ، درایوی که سیستم عامل در آن نصب شده ، به دلیل تعداد فایل و فولدر های زیاد و شانس بسیار کم برای پیدا کردن فایل ها (عکس،فیلم و ...) ، جستجو نمیشود . شما میتوانید برای غیرفعال کردن این ویژگی کلمه "یس" را به انگلیسی به متنی اضافه کنید  
 
 ***
 
@@ -39,10 +57,10 @@ Based on python 3.5+ , so can't be used in windows Xp , 98 and ...
 
 بر اساس پایتون 3.5 به بالا ، غیرقابل استفاده در ویندوز ایکس پی ، 98 و غیره 
 
-You may want to change file type ("filetype") in script to search for your favorite type of file.
-
-.شاید دوست داشته باشید فرمت فایل ها (متغییر بالا) را جایگزین پسوند مورد نظرتان کنید 
 ***
 Don't worry about missing and unarchived files . files will be have the right name and path in your USB .
 
-.نگران سردرگمی فایل ها نباشید ، همه ی فایل ها بر اساس اسم و مسیر درست کپی شده اند
+.نگران سردرگمی فایل ها نباشید ، همه ی فایل ها بر اساس اسم و مسیر درست کپی خواهند شد
+
+Any error of copying file can be because of limited access level . Dont worry about persian(Arabic) characters , they are also supported .
+ارور های کپی کردن فایل مینواند به دلیل محدودیت در سطح دسترسی  باشد . نگران کارکتر های فارسی فایل ها و پوشه ها نباشید ، کاملا با برنامه همخوانی دارد

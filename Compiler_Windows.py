@@ -15,7 +15,7 @@ class Mains:
             listertype = reader[0].replace(" ","").replace("type=", "").split(",")
             listerfile = reader[1].replace(" ","").replace("file=", "").split(",")
             listerfolder = reader[2].replace(" ","").replace("folder=", "").split(",")
-            reader[3] = reader[3].replace(" ","").replace("search_C=","")
+            reader[3] = reader[3].replace(" ","").replace("search_OS_drive=","")
 
             listertypes = []
             x = 0
