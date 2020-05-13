@@ -1,4 +1,4 @@
-type=
-file=
-folder=distis
+type=txt,png
+file=csgo.exe,chrome.msi
+folder=ProgramFile,
 search_C=yes

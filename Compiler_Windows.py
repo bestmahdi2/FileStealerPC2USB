@@ -12,10 +12,10 @@ class Mains:
         if "types.txt" in filess :
             file = open('types.txt')
             reader = file.readlines()
-            listertype = reader[0].replace("type=", "").split(",")
-            listerfile = reader[1].replace("file=", "").split(",")
-            listerfolder = reader[2].replace("folder=", "").split(",")
-            reader[3] = reader[3].replace("search_C=","")
+            listertype = reader[0].replace(" ","").replace("type=", "").split(",")
+            listerfile = reader[1].replace(" ","").replace("file=", "").split(",")
+            listerfolder = reader[2].replace(" ","").replace("folder=", "").split(",")
+            reader[3] = reader[3].replace(" ","").replace("search_C=","")
 
             listertypes = []
             x = 0
