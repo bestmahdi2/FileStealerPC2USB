@@ -43,9 +43,9 @@ class Mains:
             filetype = listertypes + listerfiles
             self.filetype = list(filter(None, filetype))
 
-            self.oser = "do"
+            self.oser = "NO-os"
             if reader[3] == "yes":
-                self.oser = "dont"
+                self.oser = "Yes-os"
         else:
             print("no *type.txt* file !!!")
 
@@ -92,7 +92,7 @@ class Mains:
                     self.drive_list.append(drname)
 
 ## region OS:
-        if self.oser == "dont":
+        if self.oser == "NO-os":
             for i in self.drive_list:
                 if i == win :
                     self.drive_list.remove(i)
