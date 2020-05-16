@@ -87,7 +87,7 @@ class Mains:
 
 ## region NOT OS:
         if self.oser == "NO-os":
-            self.drive_list = ["/home","/media","/mnt"]
+            self.drive_list = ["/media","/home","/mnt"]
 ## endregion
 
         for driver in self.drive_list:
