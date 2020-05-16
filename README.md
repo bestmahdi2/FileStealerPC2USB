@@ -12,6 +12,8 @@ If your not a developer just download and use the **FileStealerPC2USB.exe** in *
 
 Compiler_Windows.py : Script for windows users 
 
+Compiler_Linux.py : Script for linux users
+
 Type.txt : Tells program which file or folder need to be copied .
 
 .Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d} : Folder that you can put in your USB .

@@ -49,11 +49,12 @@ class Mains:
             self.oser = "NO-os"
             if reader[3] == "yes":
                 self.oser = "Yes-os"
-                # print(getuid())
                 if getuid() != 0:
                     print("Run the srcipt with root user , or change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " yes")
                     sleep(4)
                     exit()
+                else:
+                    self.username = input("enter your non-root username: ").lower()
 
             self.usb_finder()
         else:
@@ -91,7 +92,10 @@ class Mains:
 ## endregion
 
         for driver in self.drive_list:
-            if driver.replace(sep,"") in listdir("/"):
+            if driver != "/" :
+                if driver.replace(sep,"") in listdir("/"):
+                    self.copier(driver)
+            else:
                 self.copier(driver)
 
     def copier(self,driver):
