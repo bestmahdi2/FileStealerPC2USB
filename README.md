@@ -21,10 +21,10 @@ First , you need to edit "Type.txt" and write at least one argument for "Type" ,
 
 ابتدا باید فایل متنی را تغییر دهید و حداقل یک مورد اضافه کنید
 
-you can write whatever file types (extensions) for "type" , specific file names for "file" and specific folder names for folder.
+you can write whatever file types (extensions) for "type" , file names for "file" and folder names for folder.
 something like blow:
 
-شما میتوانید برای "تایپ" پسوند فایل ، برای "فایل" اسم دقیق فایل و برای "فولدر" اسم دقیق فولدر مورد نظر را مثل زیر وارد کنید
+شما میتوانید برای "تایپ" پسوند فایل ، برای "فایل" اسم فایل و برای "فولدر" اسم فولدر مورد نظر را مثل زیر وارد کنید
 
     type=txt,png
     file=csgo.exe,chrome.msi
