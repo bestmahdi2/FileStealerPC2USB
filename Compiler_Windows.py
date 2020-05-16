@@ -1,10 +1,14 @@
-from sys import stdout
-from time import sleep
-from os import walk, chdir, listdir, sep, environ, path, makedirs
 from shutil import copyfile, copytree
 from time import localtime
+from sys import stdout
+from time import sleep
+from os import walk, chdir, listdir, sep, path, makedirs
+
+
+from os import environ
+import ctypes
 from win32api import GetLogicalDrives
-from win33file import GetDriveType, DRIVE_FIXED, DRIVE_REMOVABLE
+from win32file import GetDriveType, DRIVE_FIXED, DRIVE_REMOVABLE
 
 class Mains:
     def __init__(self):
@@ -45,6 +49,9 @@ class Mains:
             self.oser = "NO-os"
             if reader[3] == "yes":
                 self.oser = "Yes-os"
+                admin = ctypes.windll.shell32.IsUserAnAdmin()
+                if admin != 1 :
+                    print("May not work without Admin Permission")
         else:
             print("no *type.txt* file !!!")
 
@@ -96,12 +103,11 @@ class Mains:
                 if i == win :
                     self.drive_list.remove(i)
 ## endregion
-
+        self.counter = 0
         for driver in self.drive_list:
             self.copier(driver)
 
     def copier(self,driver):
-            self.counter = 0
             chdir(driver)
 
             files = self.file

@@ -1,9 +1,12 @@
-from getpass import getuser
-from sys import stdout
-from time import sleep
-from os import walk, chdir, listdir, sep, path, makedirs, getuid
 from shutil import copyfile, copytree
 from time import localtime
+from sys import stdout
+from time import sleep
+from os import walk, chdir, listdir, sep, path, makedirs
+
+from getpass import getuser
+from os import getuid
+
 
 class Mains:
     def __init__(self):
@@ -91,6 +94,7 @@ class Mains:
             self.drive_list = ["/media","/home","/mnt"]
 ## endregion
 
+        self.counter = 0
         for driver in self.drive_list:
             if driver != "/" :
                 if driver.replace(sep,"") in listdir("/"):
