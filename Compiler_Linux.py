@@ -18,10 +18,10 @@ class Mains:
         if "types.txt" in filess:
             file = open('types.txt')
             reader = file.readlines()
-            listertype = reader[0].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("type=", "").split(",")
-            listerfile = reader[1].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("file=", "").split(",")
-            listerfolder = reader[2].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("folder=", "").split(",")
-            reader[3] = reader[3].replace(" ","").replace("\n","").replace("search_OS_drive=","")
+            listertype = reader[0].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("type=", "").lower().split(",")
+            listerfile = reader[1].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("file=", "").lower().split(",")
+            listerfolder = reader[2].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("folder=", "").lower().split(",")
+            reader[3] = reader[3].replace(" ","").replace("\n","").lower().replace("search_OS_drive=","")
 
             listertypes = []
             x = 0
@@ -116,7 +116,7 @@ class Mains:
                 if types != []:
                     for filename in filenames:
                         for type in types:
-                            if filename.endswith(types[types.index(type)]):
+                            if filename.lower().endswith(types[types.index(type)]):
                                 main_location = sep.join([dirpath,filename])
 
                                 timemin = str(localtime().tm_min)
