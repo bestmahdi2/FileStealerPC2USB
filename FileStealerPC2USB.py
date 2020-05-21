@@ -103,6 +103,10 @@ class MainWindows:
             self.copier(driver)
 
     def copier(self,driver):
+            #region AutoMinimize
+            import ctypes
+            ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
+            #endregion
             chdir(driver)
 
             files = self.file
