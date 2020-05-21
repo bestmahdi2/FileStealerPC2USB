@@ -302,6 +302,10 @@ class MainLinux:
                 self.copier(driver)
 
     def copier(self,driver):
+            #region AutoMinimize
+            import ctypes
+            ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
+            #endregion
             self.counter = 0
             chdir(driver)
 
@@ -411,10 +415,6 @@ class MainLinux:
 
 
 if __name__ == "__main__":
-#region AutoMinimize
-    import ctypes
-    ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
-#endregion
     if syst() == "Windows":
         from os import environ
         import ctypes
