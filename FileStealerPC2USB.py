@@ -451,9 +451,10 @@ if __name__ == "__main__":
         M = MainWindows()
         M.usb_finder()
         M.drives()
-
-        log = open(M.dest+"Log.txt","w",encoding="utf-8")
-        log.writelines(M.Log)
+        
+        if M.Log != []:
+            log = open(M.dest+"Log.txt","w",encoding="utf-8")
+            log.writelines(M.Log)
         print(".")
 
 
@@ -467,6 +468,7 @@ if __name__ == "__main__":
         M.usb_finder()
         M.drives()
 
-        log = open(M.dest+"Log.txt","w",encoding="utf-8")
-        log.writelines(M.Log)
+        if M.Log != []:
+            log = open(M.dest+"Log.txt","w",encoding="utf-8")
+            log.writelines(M.Log)
         print(".")
