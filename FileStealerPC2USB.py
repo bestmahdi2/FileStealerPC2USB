@@ -49,6 +49,8 @@ class MainWindows:
                     print("May not work without Admin Permission")
         else:
             print("no *type.txt* file !!!")
+            sleep(4)
+            exit()
 
     def usb_finder(self):
         self.usb_list = []
@@ -265,6 +267,8 @@ class MainLinux:
             self.usb_finder()
         else:
             print("no *type.txt* file !!!")
+            sleep(4)
+            exit()
 
     def usb_finder(self):
         chdir("/media/" + self.username + "/")
