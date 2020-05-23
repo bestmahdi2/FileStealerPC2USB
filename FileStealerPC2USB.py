@@ -317,10 +317,10 @@ class MainLinux:
 ## endregion
 
         self.counter = 0
-        #region AutoMinimize
-        import ctypes
-        ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
-        #endregion
+        # region AutoMinimize
+        # import ctypes
+        # ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
+        # endregion
         for driver in self.drive_list:
             if driver != "/" :
                 if driver.replace(sep,"") in listdir("/"):
