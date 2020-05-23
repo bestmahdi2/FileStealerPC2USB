@@ -1,4 +1,9 @@
-type=txt,png
-file=csgo.exe,chrome.msi
-folder=ProgramFile, 
+type=jpeg
+file=script to remove snap old versions programs.sh,nice.py,firstscript
+folder=ProgramFile,Windows
 search_OS_drive=yes
+
+
+Note:
+you can seperate them with items with   ,
+search_OS_drive should be yes or no.

