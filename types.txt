@@ -1,9 +1,16 @@
-type=jpeg
-file=script to remove snap old versions programs.sh,nice.py,firstscript
-folder=ProgramFile,Windows
-search_OS_drive=yes
+[Basic]
+types=png,pdf
+files=watch dogs3.exe,firstscript
+folders=ProgramFile,Windows
+search_OS_drive=no
+
+[Advanced]
+exceptDrive=\root,D:
+message=This message will be shown to user.
+countNumberShow=no
+log=no
 
 
 Note:
-you can seperate them with items with   ,
-search_OS_drive should be yes or no.
+you can seperate items with	      	         : ,
+Search_OS_drive,CountnumShow, and Log should be	 : yes\no.

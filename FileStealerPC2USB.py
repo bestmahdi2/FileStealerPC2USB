@@ -9,43 +9,39 @@ class MainWindows:
     def __init__(self):
         self.Log = []
         filess = listdir('.')
-        if "types.txt" in filess :
+        if "types.txt" in filess:
+            self.message, self.countnumShow, self.have_log , OS_search = "","","",""
+            listertype,listerfile,listerfolder,exceptdrive = [],[],[],[]
             file = open('types.txt')
             reader = file.readlines()
-            listertype = reader[0].replace(" , ", '').replace(" ,", ",").replace(", ", ",").replace("type=", "").lower().split(",")
-            listerfile = reader[1].replace(" , ", '').replace(" ,", ",").replace(", ", ",").replace("file=", "").lower().split(",")
-            listerfolder = reader[2].replace(" , ", '').replace(" ,", ",").replace(", ", ",").replace("folder=","").lower().split(",")
-            reader[3] = reader[3].replace(" ", "").replace("\n", "").replace("search_OS_drive=", "").lower()
 
-            # print(reader)
+            # region Reader
+            for read in reader:
+                if "search_OS_drive=" in read:
+                    OS_search = read.replace(" ", "").replace("\n", "").replace("search_OS_drive=", "").lower()
+                if "types=" in read:
+                    listertype = read.replace("types=", "").replace(" , ", '').replace("\n", "").replace(" ,",",").replace(", ", ",").lower().split(",")
+                if "files=" in read:
+                    listerfile = read.replace("files=", "").replace(" , ", '').replace("\n", "").replace(" ,",",").replace(", ", ",").lower().split(",")
+                if "folders=" in read:
+                    listerfolder = read.replace("folders=", "").replace(" , ", '').replace("\n", "").replace(" ,",",").replace(", ", ",").lower().split(",")
+                if "exceptDrive=" in read:
+                    exceptdrive = read.replace("exceptDrive=", "").replace(":","").replace(sep,"").replace(" , ", '').replace("\n", "").replace(" ,",",").replace(", ", ",").lower().split(",")
+                if "message" in read:
+                    self.message =read.replace("message=", "").replace("\n", "") + "\n"
+                if "countNumberShow" in read:
+                    self.countnumShow = read.replace("countNumberShow=", "").replace("\n", "").lower()
+                if "log=" in read:
+                    self.have_log = read.replace("log=", "").replace("\n", "").lower()
+        # endregion
 
-            listertypes = []
-            x = 0
-            while x < len(listertype):
-                if listertype[x] != "\n":
-                    listertypes.append("." + listertype[x].replace("\n", ""))
-                x += 1
-
-            listerfiles = []
-            y = 0
-            while y < len(listerfile):
-                if listerfile[y] != "\n":
-                    listerfiles.append(listerfile[y].replace("\n", ""))
-                y += 1
-
-            listerfolders = []
-            z  = 0
-            while z < len(listerfolder):
-                if listerfolder[z] != "\n":
-                    listerfolders.append(listerfolder[z].replace("\n", ""))
-                z += 1
-
-            self.folders = list(filter(None, listerfolders))
-            self.types = list(filter(None, listertypes))
-            self.file = list(filter(None, listerfiles))
-
+            self.folders = list(filter(None, listerfolder))
+            self.types = list(filter(None, listertype))
+            self.file = list(filter(None, listerfile))
+            self.exceptdrive = list(filter(None, exceptdrive))
             self.oser = "NO-os"
-            if reader[3] == "yes":
+
+            if OS_search == "yes":
                 self.oser = "Yes-os"
                 admin = ctypes.windll.shell32.IsUserAnAdmin()
                 if admin != 1 :
@@ -96,23 +92,34 @@ class MainWindows:
                 if t == DRIVE_FIXED:
                     self.drive_list.append(drname)
 
-## region OS:
+## region NOT OS:
         if self.oser == "NO-os":
             for i in self.drive_list:
                 if i == win :
                     self.drive_list.remove(i)
 ## endregion
 
+# region exceptdrive
+        if self.exceptdrive != []:
+            for ex in self.exceptdrive :
+                if sep+ex.lower() in self.drive_list:
+                    self.drive_list.remove(ex.upper()+":"+sep)
+# endregion
+
+        if self.message != "":
+            print(self.message)
+
         #region AutoMinimize
         import ctypes
         ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
         #endregion
+
         self.counter = 0
         for driver in self.drive_list:
             self.copier(driver)
 
     def structure(self):
-        structure = "\n==========Search==========\nSearched for these folders    : "+str(self.folders) +"\nSearched for these file-types : "+str(self.types) +"\nSearched for these files      : "+ str(self.file) + "\nAnd search os drive(folders)  : " + self.oser.replace("-os","").lower()
+        structure = "\n==========Search==========\nSearched for these folders    : "+str(self.folders) +"\nSearched for these file-types : "+str(self.types) +"\nSearched for these files      : "+ str(self.file)  + "\nExcept drives                 : " + str(self.exceptdrive) +  "\nAnd search os drive(folders)  : "+ self.oser.replace("-os","").lower()
         return structure.replace("\'","").replace("[","").replace("]","")
 
     def copier(self,driver):
@@ -149,7 +156,8 @@ class MainWindows:
                                     # print(main_location)
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r'+str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r'+str(self.counter))
 
                                 else:
                                     try:
@@ -159,7 +167,8 @@ class MainWindows:
                                         self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r' +str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' +str(self.counter))
 
                 if files != [] :
                     for filename in filenames :
@@ -186,7 +195,8 @@ class MainWindows:
                                     # print(main_location)
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
                                 else:
                                     try:
@@ -196,7 +206,8 @@ class MainWindows:
                                         self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
                 if folder != [] :
                     for dir in dirname :
@@ -221,7 +232,8 @@ class MainWindows:
                                     except :
                                         self.Log.append(driver + main_location[2:])
                                     self.counter += 1
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
                                 else:
                                     try:
@@ -231,50 +243,49 @@ class MainWindows:
                                         self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
 
 class MainLinux:
     def __init__(self):
-        self.Log = []
         self.username = getuser()
+
+        self.Log = []
         filess = listdir('.')
         if "types.txt" in filess:
+            self.message, self.countnumShow, self.have_log, OS_search = "", "", "", ""
+            listertype, listerfile, listerfolder, exceptdrive = [], [], [], []
             file = open('types.txt')
             reader = file.readlines()
-            listertype = reader[0].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("type=", "").lower().split(",")
-            listerfile = reader[1].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("file=", "").lower().split(",")
-            listerfolder = reader[2].replace(" , ",'').replace(" ,",",").replace(", " ,",").replace("folder=", "").lower().split(",")
-            reader[3] = reader[3].replace(" ", "").replace("\n", "").replace("search_OS_drive=", "").lower()
 
-            listertypes = []
-            x = 0
-            while x < len(listertype):
-                if listertype[x] != "\n":
-                    listertypes.append("." + listertype[x].replace("\n", ""))
-                x += 1
+            # region Reader
+            for read in reader:
+                if "search_OS_drive=" in read:
+                    OS_search = read.replace(" ", "").replace("\n", "").replace("search_OS_drive=", "").lower()
+                if "types=" in read:
+                    listertype = read.replace("types=", "").replace(" , ", '').replace("\n", "").replace(" ,",",").replace(", ", ",").lower().split(",")
+                if "files=" in read:
+                    listerfile = read.replace("files=", "").replace(" , ", '').replace("\n", "").replace(" ,",",").replace(", ", ",").lower().split(",")
+                if "folders=" in read:
+                    listerfolder = read.replace("folders=", "").replace(" , ", '').replace("\n", "").replace(" ,",",").replace(", ", ",").lower().split(",")
+                if "exceptDrive=" in read:
+                    exceptdrive = read.replace("exceptDrive=", "").replace(":", "").replace(sep, "").replace(" , ",'').replace("\n", "").replace(" ,", ",").replace(", ", ",").lower().split(",")
+                if "message" in read:
+                    self.message =read.replace("message=", "").replace("\n", "") + "\n"
+                if "countNumberShow" in read:
+                    self.countnumShow = read.replace("countNumberShow=", "").replace("\n", "").lower()
+                if "log=" in read:
+                    self.have_log = read.replace("log=", "").replace("\n", "").lower()
+            # endregion
 
-            listerfiles = []
-            y = 0
-            while y < len(listerfile):
-                if listerfile[y] != "\n":
-                    listerfiles.append(listerfile[y].replace("\n", ""))
-                y += 1
-
-            listerfolders = []
-            z  = 0
-            while z < len(listerfolder):
-                if listerfolder[z] != "\n":
-                    listerfolders.append(listerfolder[z].replace("\n", ""))
-                z += 1
-
-            self.folders = list(filter(None, listerfolders))
-            self.types = list(filter(None, listertypes))
-            self.file = list(filter(None, listerfiles))
-
-
+            self.folders = list(filter(None, listerfolder))
+            self.types = list(filter(None, listertype))
+            self.file = list(filter(None, listerfile))
+            self.exceptdrive = list(filter(None, exceptdrive))
             self.oser = "NO-os"
-            if reader[3] == "yes":
+
+            if OS_search == "yes":
                 self.oser = "Yes-os"
                 if getuid() != 0:
                     print("Run the script with root user , or change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
@@ -289,6 +300,7 @@ class MainLinux:
             exit()
 
     def usb_finder(self):
+        self.dest = ""
         chdir("/media/" + self.username + "/")
         self.usb_list = listdir('.')
 
@@ -316,11 +328,22 @@ class MainLinux:
             self.drive_list = ["/media","/home","/mnt"]
 ## endregion
 
-        self.counter = 0
+# region exceptdrive
+        if self.exceptdrive != []:
+            for ex in self.exceptdrive:
+                if sep+ex.lower() in self.drive_list:
+                    self.drive_list.remove(sep+ex.lower())
+# endregion
+
+        if self.message != "":
+            print(self.message)
+
         # region AutoMinimize
         # import ctypes
         # ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 6)
         # endregion
+
+        self.counter = 0
         for driver in self.drive_list:
             if driver != "/" :
                 if driver.replace(sep,"") in listdir("/"):
@@ -329,7 +352,7 @@ class MainLinux:
                 self.copier(driver)
 
     def structure(self):
-        structure = "\n==========Search==========\nSearched for these folders    : "+str(self.folders) +"\nSearched for these file-types : "+str(self.types) +"\nSearched for these files      : "+ str(self.file) + "\nAnd search os drive(folders)  : " + self.oser.replace("-os","").lower()
+        structure = "\n==========Search==========\nSearched for these folders    : "+str(self.folders) +"\nSearched for these file-types : "+str(self.types) +"\nSearched for these files      : "+ str(self.file)  + "\nExcept drives                 : " + str(self.exceptdrive) +  "\nAnd search os drive(folders)  : "+ self.oser.replace("-os","").lower()
         return structure.replace("\'","").replace("[","").replace("]","")
 
     def copier(self,driver):
@@ -354,18 +377,20 @@ class MainLinux:
 
                                 absulpath = path.abspath(main_location).replace(":","")
                                 absulpath = absulpath[:absulpath.rfind(sep)] + sep
+                                # print(absulpath)
 
                                 if filename in listdir(self.dest):
                                     filename = filename.replace(types[types.index(type)],"")
                                     try:
                                         makedirs(path.dirname(self.dest + absulpath), exist_ok=True)
-                                        copyfile(main_location, self.dest + absulpath+ filename + time +types[types.index(type)])
+                                        copyfile(main_location,self.dest + absulpath + filename + time + types[types.index(type)])
                                     except:
                                         self.Log.append(driver + main_location[2:])
-
+                                    # print(main_location)
                                     self.counter += 1
-
-                                    stdout.write('\r'+str(self.counter))
+                                    # print(counter)
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r'+str(self.counter))
 
                                 else:
                                     try:
@@ -373,12 +398,10 @@ class MainLinux:
                                         copyfile(main_location, self.dest +absulpath+ filename)
                                     except :
                                         self.Log.append(driver + main_location[2:])
-                                    # finally:
-                                    #     print("shit")
-                                    #     if filename not in self.dest+absulpath:
-                                    #         self.Log.append(main_location)
                                     self.counter += 1
-                                    stdout.write('\r' +str(self.counter))
+                                    # print(counter)
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' +str(self.counter))
 
                 if files != [] :
                     for filename in filenames :
@@ -405,7 +428,8 @@ class MainLinux:
                                     # print(main_location)
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
                                 else:
                                     try:
@@ -415,7 +439,8 @@ class MainLinux:
                                         self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
                 if folder != [] :
                     for dir in dirname :
@@ -440,7 +465,8 @@ class MainLinux:
                                     except :
                                         self.Log.append(driver + main_location[2:])
                                     self.counter += 1
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
                                 else:
                                     try:
@@ -450,7 +476,8 @@ class MainLinux:
                                         self.Log.append(driver + main_location[2:])
                                     self.counter += 1
                                     # print(counter)
-                                    stdout.write('\r' + str(self.counter))
+                                    if self.countnumShow != "no":
+                                        stdout.write('\r' + str(self.counter))
 
 
 if __name__ == "__main__":
@@ -467,22 +494,23 @@ if __name__ == "__main__":
         M.drives()
 
         #region log
-        if M.Log == []:
-            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
-            log1.write("#####All files(folders) copied#####\n")
-            log1.close()
-            log = open(M.dest+"Log.txt","a",encoding="utf-8")
-            log.write(M.structure())
-            log.close()
-        if len(M.Log) > 0:
-            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
-            log1.write("=====Couldn't copy these files or folders=====\n\n")
-            log1.close()
-            log = open(M.dest+"Log.txt","a",encoding="utf-8")
-            for Log in M.Log:
-                log.write(Log + "\n")
-            log.write(M.structure())
-            log.close()
+        if M.have_log != "no":
+            if M.Log == []:
+                log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
+                log1.write("#####All files(folders) copied#####\n")
+                log1.close()
+                log = open(M.dest+"Log.txt","a",encoding="utf-8")
+                log.write(M.structure())
+                log.close()
+            if len(M.Log) > 0:
+                log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
+                log1.write("=====Couldn't copy these files or folders=====\n\n")
+                log1.close()
+                log = open(M.dest+"Log.txt","a",encoding="utf-8")
+                for Log in M.Log:
+                    log.write(Log + "\n")
+                log.write(M.structure())
+                log.close()
         #endregion
         print(".")
 
@@ -497,22 +525,23 @@ if __name__ == "__main__":
         M.usb_finder()
         M.drives()
 
-        #region log
-        if M.Log == []:
-            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
-            log1.write("#####All files(folders) copied#####\n")
-            log1.close()
-            log = open(M.dest+"Log.txt","a",encoding="utf-8")
-            log.write(M.structure())
-            log.close()
-        if len(M.Log) > 0:
-            log1 = open(M.dest+"Log.txt","w",encoding="utf-8")
-            log1.write("=====Couldn't copy these files or folders=====\n\n")
-            log1.close()
-            log = open(M.dest+"Log.txt","a",encoding="utf-8")
-            for Log in M.Log:
-                log.write(Log + "\n")
-            log.write(M.structure())
-            log.close()
-        #endregion
+        # region log
+        if M.have_log != "no":
+            if M.Log == []:
+                log1 = open(M.dest + "Log.txt", "w", encoding="utf-8")
+                log1.write("#####All files(folders) copied#####\n")
+                log1.close()
+                log = open(M.dest + "Log.txt", "a", encoding="utf-8")
+                log.write(M.structure())
+                log.close()
+            if len(M.Log) > 0:
+                log1 = open(M.dest + "Log.txt", "w", encoding="utf-8")
+                log1.write("=====Couldn't copy these files or folders=====\n\n")
+                log1.close()
+                log = open(M.dest + "Log.txt", "a", encoding="utf-8")
+                for Log in M.Log:
+                    log.write(Log + "\n")
+                log.write(M.structure())
+                log.close()
+        # endregion
         print(".")
