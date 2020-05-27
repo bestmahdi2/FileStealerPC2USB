@@ -102,7 +102,7 @@ class MainWindows:
 # region exceptdrive
         if self.exceptdrive != []:
             for ex in self.exceptdrive :
-                if sep+ex.lower() in self.drive_list:
+                if ex.upper()+":"+sep in self.drive_list:
                     self.drive_list.remove(ex.upper()+":"+sep)
 # endregion
 
