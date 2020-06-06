@@ -47,13 +47,13 @@ class MainWindows:
                 if admin != 1 :
                     print("May not work properly without Admin Permission . You can change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
         else:
-            print("There is no [type.txt] file, copy it here and re-open the program or answer these questions(seperate them with :  ,  )")
+            print("There is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
             OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ","")
-            listertype = input("Which type-file do you want to be copied ? (just Enter for nothing)\n > ").replace(" ","")
-            listerfile = input("What files do you want to be copied ? (just Enter for nothing)\n > ")
-            listerfolder = input("What folders do you want to be copied ? (just Enter for nothing)\n > ")
-            exceptdrive = input("What drives don't you want to be copied ? (just Enter for nothing)\n > ").replace(" ","")
-            message = input("What message do you want to be shown ? (just Enter for nothing)\n > ")
+            listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ","")
+            listerfile = input("What files do you want to be copied ? (hit Enter for nothing)\n > ")
+            listerfolder = input("What folders do you want to be copied ? (hit Enter for nothing)\n > ")
+            exceptdrive = input("What drives don't you want to be copied ? (hit Enter for nothing)\n > ").replace(" ","")
+            message = input("What message do you want to be shown ? (hit Enter for nothing)\n > ")
             countnumShow = input("Do you want numbers of files to be counted ? (yes\\no)\n > ").replace(" ","")
             have_log = input("Do you want to have log-file ? (yes\\no)\n > ").replace(" ","")
 
