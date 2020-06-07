@@ -309,26 +309,6 @@ class MainLinux:
                 else:
                     self.username = input("enter your non-root username: ").lower()
 
-        else:
-            print("There is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
-            OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ","")
-            listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ","")
-            listerfile = input("What files do you want to be copied ? (hit Enter for nothing)\n > ")
-            listerfolder = input("What folders do you want to be copied ? (hit Enter for nothing)\n > ")
-            exceptdrive = input("What drives don't you want to be copied ? (hit Enter for nothing)\n > ").replace(" ","")
-            message = input("What message do you want to be shown ? (hit Enter for nothing)\n > ")
-            countnumShow = input("Do you want numbers of files to be counted ? (yes\\no)\n > ").replace(" ","")
-            have_log = input("Do you want to have log-file ? (yes\\no)\n > ").replace(" ","")
-
-            txt = open("types.txt","w")
-            txt.write("[Basic]\ntypes="+ listertype + "\nfiles=" +listerfile+ "\nfolders=" + listerfolder +
-                      "\nsearch_OS_drive=" + OS_search + "\n\n[Advanced]\nexceptDrive="+ exceptdrive +
-                      "\nmessage="+message + "\ncountNumberShow=" + countnumShow + "\nlog="+have_log +
-                      "\n\n\nNote:\nyou can seperate items with	                 : ,\nSearch_OS_drive,CountnumShow, and Log should be	 : yes\\no")
-            txt.close()
-            input("\nAll done, re-run the program.")
-            exit()
-
     def usb_finder(self):
         self.dest = ""
         chdir("/media/" + self.username + "/")
@@ -519,6 +499,29 @@ if __name__ == "__main__":
         from win32file import GetDriveType, DRIVE_FIXED, DRIVE_REMOVABLE
         #endregion
 
+        filess = listdir('.')
+        if "types.txt" not in filess:
+            print("There is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
+            OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ", "")
+            listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ",
+                                                                                                                  "")
+            listerfile = input("What files do you want to be copied ? (hit Enter for nothing)\n > ")
+            listerfolder = input("What folders do you want to be copied ? (hit Enter for nothing)\n > ")
+            exceptdrive = input("What drives don't you want to be copied ? (hit Enter for nothing)\n > ").replace(" ",
+                                                                                                                  "")
+            message = input("What message do you want to be shown ? (hit Enter for nothing)\n > ")
+            countnumShow = input("Do you want numbers of files to be counted ? (yes\\no)\n > ").replace(" ", "")
+            have_log = input("Do you want to have log-file ? (yes\\no)\n > ").replace(" ", "")
+
+            print("\nAll done. Let's go for real challenge...\n==========================\n")
+
+            txt = open("types.txt", "w")
+            txt.write("[Basic]\ntypes=" + listertype + "\nfiles=" + listerfile + "\nfolders=" + listerfolder +
+                      "\nsearch_OS_drive=" + OS_search + "\n\n[Advanced]\nexceptDrive=" + exceptdrive +
+                      "\nmessage=" + message + "\ncountNumberShow=" + countnumShow + "\nlog=" + have_log +
+                      "\n\n\nNote:\nyou can seperate items with	                 : ,\nSearch_OS_drive,CountnumShow, and Log should be	 : yes\\no")
+            txt.close()
+
         M = MainWindows()
         M.usb_finder()
         M.drives()
@@ -550,6 +553,29 @@ if __name__ == "__main__":
         from getpass import getuser
         from os import getuid
         #endregion
+
+        filess = listdir('.')
+        if "types.txt" not in filess:
+            print("There is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
+            OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ", "")
+            listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ",
+                                                                                                                  "")
+            listerfile = input("What files do you want to be copied ? (hit Enter for nothing)\n > ")
+            listerfolder = input("What folders do you want to be copied ? (hit Enter for nothing)\n > ")
+            exceptdrive = input("What drives don't you want to be copied ? (hit Enter for nothing)\n > ").replace(" ",
+                                                                                                                  "")
+            message = input("What message do you want to be shown ? (hit Enter for nothing)\n > ")
+            countnumShow = input("Do you want numbers of files to be counted ? (yes\\no)\n > ").replace(" ", "")
+            have_log = input("Do you want to have log-file ? (yes\\no)\n > ").replace(" ", "")
+
+            print("\nAll done. Let's go for real challenge...\n==========================\n")
+
+            txt = open("types.txt", "w")
+            txt.write("[Basic]\ntypes=" + listertype + "\nfiles=" + listerfile + "\nfolders=" + listerfolder +
+                      "\nsearch_OS_drive=" + OS_search + "\n\n[Advanced]\nexceptDrive=" + exceptdrive +
+                      "\nmessage=" + message + "\ncountNumberShow=" + countnumShow + "\nlog=" + have_log +
+                      "\n\n\nNote:\nyou can seperate items with	                 : ,\nSearch_OS_drive,CountnumShow, and Log should be	 : yes\\no")
+            txt.close()
 
         M = MainLinux()
         M.usb_finder()
