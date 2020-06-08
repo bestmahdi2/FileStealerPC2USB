@@ -46,25 +46,6 @@ class MainWindows:
                 admin = ctypes.windll.shell32.IsUserAnAdmin()
                 if admin != 1 :
                     print("May not work properly without Admin Permission . You can change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
-        else:
-            print("There is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
-            OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ","")
-            listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ","")
-            listerfile = input("What files do you want to be copied ? (hit Enter for nothing)\n > ")
-            listerfolder = input("What folders do you want to be copied ? (hit Enter for nothing)\n > ")
-            exceptdrive = input("What drives don't you want to be copied ? (hit Enter for nothing)\n > ").replace(" ","")
-            message = input("What message do you want to be shown ? (hit Enter for nothing)\n > ")
-            countnumShow = input("Do you want numbers of files to be counted ? (yes\\no)\n > ").replace(" ","")
-            have_log = input("Do you want to have log-file ? (yes\\no)\n > ").replace(" ","")
-
-            txt = open("types.txt","w")
-            txt.write("[Basic]\ntypes="+ listertype + "\nfiles=" +listerfile+ "\nfolders=" + listerfolder +
-                      "\nsearch_OS_drive=" + OS_search + "\n\n[Advanced]\nexceptDrive="+ exceptdrive +
-                      "\nmessage="+message + "\ncountNumberShow=" + countnumShow + "\nlog="+have_log +
-                      "\n\n\nNote:\nyou can seperate items with	                 : ,\nSearch_OS_drive,CountnumShow, and Log should be	 : yes\\no")
-            txt.close()
-            input("\nAll done, re-run the program.")
-            exit()
 
     def usb_finder(self):
         self.usb_list = []
@@ -298,7 +279,7 @@ class MainLinux:
             self.types = list(filter(None, listertype))
             self.file = list(filter(None, listerfile))
             self.exceptdrive = list(filter(None, exceptdrive))
-            self.oser = "NO-os"
+
 
             if OS_search == "yes":
                 self.oser = "Yes-os"
@@ -308,6 +289,11 @@ class MainLinux:
                     exit()
                 else:
                     self.username = input("enter your non-root username: ").lower()
+            else:
+                self.oser = "NO-os"
+                if getuid() == 0:
+                    self.username = input("enter your non-root username: ").lower()
+
 
     def usb_finder(self):
         self.dest = ""
@@ -322,7 +308,7 @@ class MainLinux:
         favorite = ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}"
 
         for usb in self.usb_list:
-            chdir(usb)
+            chdir("/media/" + self.username + sep + usb)
             if favorite in listdir('.'):
                 self.dest = "/media/" + self.username + sep + usb + sep + favorite + sep
         if self.dest == "":
@@ -501,7 +487,7 @@ if __name__ == "__main__":
 
         filess = listdir('.')
         if "types.txt" not in filess:
-            print("There is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
+            print("\nThere is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
             OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ", "")
             listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ",
                                                                                                                   "")
@@ -556,7 +542,7 @@ if __name__ == "__main__":
 
         filess = listdir('.')
         if "types.txt" not in filess:
-            print("There is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
+            print("\nThere is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
             OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ", "")
             listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ",
                                                                                                                   "")
