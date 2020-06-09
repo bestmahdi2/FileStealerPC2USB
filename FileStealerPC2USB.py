@@ -1,9 +1,9 @@
 from platform import system as syst
 from shutil import copyfile, copytree
 from time import localtime
-from sys import stdout
-from time import sleep
+from sys import stdout , exit
 from os import walk, chdir, listdir, sep, path, makedirs
+import threading
 
 class MainWindows:
     def __init__(self):
