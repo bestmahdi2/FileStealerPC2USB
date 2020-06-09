@@ -8,6 +8,7 @@ from os import walk, chdir, listdir, sep, path, makedirs
 class MainWindows:
     def __init__(self):
         self.Log = []
+        self.counter = 5
         filess = listdir('.')
         if "types.txt" in filess:
             self.message, self.countnumShow, self.have_log , OS_search = "","","",""
@@ -253,7 +254,8 @@ class MainWindows:
 class MainLinux:
     def __init__(self):
         self.username = getuser()
-
+        self.counter = 5
+        
         self.Log = []
         filess = listdir('.')
         if "types.txt" in filess:
