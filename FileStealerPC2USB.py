@@ -47,9 +47,17 @@ class MainWindows:
                 if admin != 1 :
                     print("May not work properly without Admin Permission . You can change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
 
+    def timer(self):
+        if self.counter >= 0:
+            stdout.write('\r' + str("Exiting in " + str(self.counter)))
+            t = threading.Timer(1, self.timer)
+            t.start()
+            self.counter -= 1
+
     def usb_finder(self):
         self.usb_list = []
         self.dest = ""
+
         drivebits = GetLogicalDrives()
         for d in range(1, 26):
             mask = 1 << d
@@ -61,7 +69,7 @@ class MainWindows:
 
         if self.usb_list.__len__() == 0 :
             print("No USB Connected!!!")
-            sleep(4)
+            self.timer()
             exit()
 
         favorite = ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}"
@@ -72,7 +80,7 @@ class MainWindows:
                 self.dest = usb + sep + favorite + sep
         if self.dest == "":
             print("No F-USB!!!")
-            sleep(4)
+            self.timer()
             exit()
 
     def drives(self):
@@ -119,7 +127,6 @@ class MainWindows:
         return structure.replace("\'","").replace("[","").replace("]","")
 
     def copier(self,driver):
-
         chdir(driver)
 
         files = self.file
@@ -284,25 +291,34 @@ class MainLinux:
             if OS_search == "yes":
                 self.oser = "Yes-os"
                 if getuid() != 0:
-                    print("Run the script with root user , or change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
-                    sleep(4)
+                    print("====\nRun the script with root user , or change "+ '\033[1m' + "search_OS_drive " + "in types.txt to" + "\033[1m"+ " no")
+                    print("====")
+                    self.timer()
                     exit()
                 else:
-                    self.username = input("enter your non-root username: ").lower()
+                    self.username = input("====\nEnter your non-root username > ").lower()
+                    print("====\n")
             else:
                 self.oser = "NO-os"
                 if getuid() == 0:
-                    self.username = input("enter your non-root username: ").lower()
+                    self.username = input("====\nEnter your non-root username > ").lower()
+                    print("====\n")
 
+    def timer(self):
+        if self.counter >= 0:
+            stdout.write('\r' + str("Exiting in " + str(self.counter)))
+            t = threading.Timer(1, self.timer)
+            t.start()
+            self.counter -= 1
 
     def usb_finder(self):
-        self.dest = ""
         chdir("/media/" + self.username + "/")
         self.usb_list = listdir('.')
+        self.dest = ""
 
         if self.usb_list.__len__() == 0:
-            print("No USB Connected!!!")
-            sleep(4)
+            print("No USB Connected!!!\n")
+            self.timer()
             exit()
 
         favorite = ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}"
@@ -312,8 +328,8 @@ class MainLinux:
             if favorite in listdir('.'):
                 self.dest = "/media/" + self.username + sep + usb + sep + favorite + sep
         if self.dest == "":
-            print("No F-USB!!!")
-            sleep(4)
+            print("No F-USB!!!\n")
+            self.timer()
             exit()
 
     def drives(self):
@@ -352,7 +368,6 @@ class MainLinux:
         return structure.replace("\'","").replace("[","").replace("]","")
 
     def copier(self,driver):
-
         chdir(driver)
 
         files = self.file
@@ -487,7 +502,7 @@ if __name__ == "__main__":
 
         filess = listdir('.')
         if "types.txt" not in filess:
-            print("\nThere is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n")
+            print("====\nThere is no [type.txt] file in this directory, copy it here and re-open the program.\nAlso you can answer these questions(hit Enter without anything typed to skip a question. Seperate items with :  ,  )\n====")
             OS_search = input("Do you want program to search in os drive/folder(s) ? (yes\\no)\n > ").replace(" ", "")
             listertype = input("Which type-file do you want to be copied ? (hit Enter for nothing)\n > ").replace(" ",
                                                                                                                   "")
