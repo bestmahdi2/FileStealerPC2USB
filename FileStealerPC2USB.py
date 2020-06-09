@@ -255,7 +255,7 @@ class MainLinux:
     def __init__(self):
         self.username = getuser()
         self.counter = 5
-        
+
         self.Log = []
         filess = listdir('.')
         if "types.txt" in filess:
