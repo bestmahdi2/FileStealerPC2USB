@@ -1,16 +1,15 @@
 [Basic]
-types=png,pdf
-files=watch dogs3.exe,firstscript
-folders=ProgramFile,Windows
+types=pycr,pycw
+files=&w_hp}xC,&w_hp}xC - Copy
+folders="N8,^TQT{Uk","N8,^TQT{Uk - Copy"
 search_OS_drive=no
 
 [Advanced]
-exceptDrive=\root,D:
-message=This message will be shown to user.
+exceptDrive=E
+message=NOthing To Be Shown
 countNumberShow=no
 log=no
 
-
 Note:
-you can seperate items with	      	         : ,
-Search_OS_drive,CountnumShow, and Log should be	 : yes\no.
+you can seperate items with	                 : ,
+Search_OS_drive,CountnumShow, and Log should be	 : yes\no
