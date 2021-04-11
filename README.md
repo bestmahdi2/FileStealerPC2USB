@@ -61,7 +61,7 @@ Don't worry about missing and unarchived files, files will have the right name a
 Any error of copying files can be because of the limited access level. Don't worry about Persian(Arabic) characters, it supports them.
 
 
-# :فارسی
+# فارسی
 <div dir="rtl">
 این یک برنامه پایتون برای پیدا و کپی کردن فایل ها و فولدر های دلخواه از درایور های کامپیوتر و انتقال به یو اس بی شما است
 ***
@@ -69,7 +69,7 @@ Any error of copying files can be because of the limited access level. Don't wor
 
 ***
 
-## :روش استفاده
+## روش استفاده
 ابتدا باید فایل متنی را تغییر دهید و حداقل یک مورد اضافه کنید
 
 شما میتوانید برای "تایپ" پسوند فایل ، برای "فایل" اسم فایل و برای "فولدر" اسم فولدر مورد نظر را مثل زیر وارد کنید
@@ -81,16 +81,17 @@ Any error of copying files can be because of the limited access level. Don't wor
     search_OS_drive=yes
     
 <div dir="rtl">
-مسیر
+**مسیر**
 </div>
 
         .Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}
+        
 <div dir="rtl">
 بعد برنامه را اجرا کنید فایل ها و فولدر ها به صورت خودکار در مسیر بالا کپی میشوند
 
 برای دسترسی به فایل های کپی شده ، اسم دایرکتوری بالا را عوض کنید ، البته ترجیحا از اسامی خودش مشتق نشده نباشد در غیر این صورت در ویندوز به صفحه ی پرینتر و اسکنر ها هدایت میشوید و در لینوکس هم دایرکتوری مخفی و غیرقابل دید است
 
-###پیشرفته
+### پیشرفته
 در فایل متنی میتوانید قسمت پیشرفته را که به شما تنظیمات بیشتری میدهد را اضافه کنید یا آن را حذف کنید
 
 اگر میخواهید از آن استفاده کنید ، این خطوط را به فایل متنی اضافه کنید
@@ -115,6 +116,7 @@ Any error of copying files can be because of the limited access level. Don't wor
 </div>
 
     ".Thumbs.ms.{2227a280-3aea-1069-a2de-08002b30309d}"
+
 <div dir="rtl">
 یو اس بی شما با داشتن دایرکتوری بالا شناخته میشود و میتوانید آن را در کد عوض کنید
 ***
