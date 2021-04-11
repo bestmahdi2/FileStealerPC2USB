@@ -60,6 +60,7 @@ Don't worry about missing and unarchived files, files will have the right name a
 
 Any error of copying files can be because of the limited access level. Don't worry about Persian(Arabic) characters, it supports them.
 
+<div dir="rtl">
 # :فارسی
 
 این یک برنامه پایتون برای پیدا و کپی کردن فایل ها و فولدر های دلخواه از درایور های کامپیوتر و انتقال به یو اس بی شما است
@@ -113,3 +114,5 @@ Any error of copying files can be because of the limited access level. Don't wor
 .نگران سردرگمی فایل ها نباشید ، همه ی فایل ها بر اساس اسم و مسیر درست کپی خواهند شد
 
 .ارور های کپی کردن فایل مینواند به دلیل محدودیت در سطح دسترسی  باشد . نگران کارکتر های فارسی فایل ها و پوشه ها نباشید ، کاملا با برنامه همخوانی دارد 
+
+</div>
